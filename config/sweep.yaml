@@ -10,7 +10,7 @@ parameters:
   data_path:
     value: /net/archive/export/tcga
   gdc_client:
-    value: /home/kh701/gdc-client
+    value: /mnt/32TB/prh/proj/healnet/GdcDataTransferTool/gdc-client
   log_path:
     value: /home/kh701/pycharm/x-perceiver/logs
   model.output_dims:

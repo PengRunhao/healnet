@@ -25,8 +25,8 @@ brca:
   num_freq_bands: 2
   depth: 2
   max_freq: 2.
-  num_latents: 17
-  latent_dim: 126
+  num_latents: 25   #17
+  latent_dim: 119  #126
   cross_dim_head: 63
   latent_dim_head: 20
   cross_heads: 1
@@ -45,8 +45,8 @@ kirp:
   num_freq_bands: 2
   depth: 5
   max_freq: 2.
-  num_latents: 17
-  latent_dim: 62
+  num_latents: 25  #17
+  latent_dim: 119  #62
   cross_dim_head: 27
   latent_dim_head: 113
   cross_heads: 1
@@ -65,8 +65,8 @@ ucec:
   num_freq_bands: 2
   depth: 2
   max_freq: 2.
-  num_latents: 16
-  latent_dim: 65
+  num_latents: 25  #16   25(paper_verision)
+  latent_dim: 119  #65   119(paper_version)
   cross_dim_head: 103
   latent_dim_head: 51
   cross_heads: 1

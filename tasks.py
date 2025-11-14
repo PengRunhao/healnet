@@ -30,7 +30,7 @@ def install(c, system: str):
 
 @task
 def download(c, dataset:str, config:str="config/main_gpu.yml", samples: int = None):
-    valid_datasets = ["brca", "blca", "kirp", "ucec", "hnsc", "paad", "luad", "lusc"]
+    valid_datasets = ["brca", "blca", "kirp", "ucec", "hnsc", "paad", "luad", "lusc", "gbmlgg"]    ##新增gbmlgg
     conf = Config(config).read()
     download_dir = Path(conf.tcga_path).joinpath(f"wsi/{dataset}")
 
@@ -133,7 +133,9 @@ def preprocess(c, dataset: str, level: int, config: str="config/main_gpu.yml", s
 
     if step == "features":
         # only take preprocessed slides
-        slide_ids = [x.rstrip(".h5") for x in os.listdir(prep_path.joinpath("patches")) if x.endswith(".h5")]
+        # slide_ids = [x.rstrip(".h5") for x in os.listdir(prep_path.joinpath("patches")) if x.endswith(".h5")]
+        #上一行的代码会导致有的h5文件打不开，从而在提取特征时漏掉61个
+        slide_ids = [Path(x).stem for x in os.listdir(prep_path.joinpath("patches")) if x.endswith(".h5")] 
         # load patch coords
         coords = {}
         for slide_id in slide_ids:

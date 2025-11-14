@@ -1,7 +1,7 @@
-data_path: data/
-tcga_path: data/tcga/
-gdc_client: ./gdc-client
-log_path: logs/
+data_path: /mnt/32TB/prh/proj/healnet/data
+tcga_path: /mnt/32TB/prh/proj/healnet/data/tcga
+gdc_client: /mnt/32TB/prh/proj/healnet/GdcDataTransferTool/gdc-client
+log_path: /mnt/32TB/prh/proj/healnet/logs
 seed: 42
 
 dataset: blca

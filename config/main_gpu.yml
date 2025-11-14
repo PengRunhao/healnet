@@ -1,25 +1,25 @@
-data_path: /net/archive/export/tcga
-tcga_path: /net/archive/export/tcga/tcga
-gdc_client: healnet/gdc-client
-log_path: healnet/logs
-seed: 1
+data_path: /mnt/32TB/prh/proj/healnet/data
+tcga_path: /mnt/32TB/prh/proj/healnet/data/tcga
+gdc_client: /mnt/32TB/prh/proj/healnet/GdcDataTransferTool/gdc-client
+log_path: /mnt/32TB/prh/proj/healnet/logs
+seed: 3
 hyperparams: config/best_hyperparams.yml
 
-dataset: kirp #  [blca, brca, ucec, kirp]
-model: healnet # [fcnn, healnet, healnet_early, mcat]
+dataset: brca #  [blca, brca, ucec, kirp]
+model: mcat # [fcnn, healnet, healnet_early, mcat]
 
-explainer: False
-missing_ablation: False
-omic_attention: True 
+explainer: False     # 保存/可视化各模态的注意力权重（比如做 WSI 热力图或挑出高权重的 omic 特征）,False表示不生成解释性可视化，训练更快
+missing_ablation: False  # 设为 True 时，评估阶段会按设定方案随机或指定让某些样本只保留 WSI 或只保留 omic，用来验证模型在缺失模态下的稳健性。日常训练设 False，做论文里的对比实验时才开。
+omic_attention: True   # 是否对 omic（表格多组学）模态启用注意力模块。True 表示 omic 端也走 cross-attention（而非简单 MLP），便于在共享潜在数组 S 上与其他模态交互
 
-n_folds: 1
+n_folds: 5   # 交叉验证折数。1 表示不做 k-fold，只做一次固定划分。想做更稳健的评估可设为5，训练会按折数倍增
 
 wandb: False # log to weights and biases (login required)
 
 
 data:
   # Parameters for running on raw WSIs
-  resize: True #
+  resize: False # 是否在读入整张大图时把它缩放到固定分辨率（例如 1024×1024）再切 patch。
   resize_height: 1024 # if resize is True
   resize_width: 1024 # if resize is True
   wsi_level: 2 # WSI resolution level (if available)
@@ -35,7 +35,7 @@ survival: # all parameters related to survival task
   subset: uncensored # subset used to calculate survival bin cutoffs, valid: all, censored, uncensored
 
 train_loop:
-  eval_interval: 1 # evaluate on validation set every n epochs
+  eval_interval: 1 # 每隔多少个 epoch 在验证集上评估一次。1 就是每个 epoch 都评一次，监控更及时，但稍慢。
   batch_size: 4
   epochs: 50 # max training epochs
   early_stopping: True # stop training if validation loss doesn't improve for `patience` epochs
@@ -45,7 +45,7 @@ optimizer:
   max_lr: 0.008 # maximum learning rate for OneCycleLR scheduler
   lr: 0.007765016508403882 # used for all
   momentum: 0.92 # momentum
-  weight_decay: None # L2 regularisation
+  weight_decay: 1e-4 # None # L2 regularisation
 
 
 # other `model_params` are specified in config/best_hyperparams.yml
